@@ -1,0 +1,12 @@
+services:
+  oneev:
+    build:
+      context: .
+      target: dev
+      dockerfile: Dockerfile
+    image: oneev:dev
+    container_name: oneev_dev
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"

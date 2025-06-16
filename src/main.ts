@@ -1,24 +1,221 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+class Character {
+  image:string
+  id:number
+  name:string
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+
+  constructor(image:string, id:number, name:string) {
+    this.image = image
+    this.id = id
+    this.name = name
+  }
+}
+
+
+//====================================================HEADER=========================================================
+
+
+const app = document.querySelector<HTMLDivElement>('#app')!
+
+
+function header() {
+  const headerDiv:HTMLDivElement = document.createElement("div")
+  headerDiv.className = 'header py-10 bg-orange-400 fixed top-0 right-0 left-0 z-50 flex gap-8 ps-50'
+
+  const logo:HTMLImageElement = document.createElement("img")
+  logo.src = ("/src/img/logo.png")
+  logo.alt = "Logo Dragon Ball"
+  logo.className = 'absolute w-40 left-5 top-5'
+
+  const liste:HTMLAnchorElement = document.createElement("a")
+  liste.href =""
+  liste.textContent = "Personnage"
+  liste.className = "px-8 text-2xl text-white transition-transform duration-300 transform hover:scale-120 cursor-pointer font-[Bangers] aura-hover"
+
+
+  const planet:HTMLAnchorElement = document.createElement("a")
+  planet.textContent = "Planètes"
+  planet.className = "px-8 text-2xl text-white transition-transform duration-300 transform hover:scale-120 cursor-pointer font-[Bangers] aura-hover"
+
+  const ki:HTMLAnchorElement = document.createElement("a")
+  ki.textContent = "Ki"
+  ki.className = "px-8 text-2xl text-white transition-transform duration-300 transform hover:scale-120 cursor-pointer font-[Bangers] aura-hover"
+
+
+  const race:HTMLAnchorElement = document.createElement("a")
+  race.textContent = "Races"
+  race.className = "px-8 text-2xl text-white transition-transform duration-300 transform hover:scale-120 cursor-pointer font-[Bangers] aura-hover"
+
+  headerDiv.appendChild(logo)
+  headerDiv.appendChild(liste)
+  headerDiv.appendChild(planet)
+  headerDiv.appendChild(ki)
+  headerDiv.appendChild(race)
+  app.appendChild(headerDiv)
+}
+header()
+
+
+//====================================================LISTE DES PERSONNAGES ACCUEIL=========================================================
+
+
+const h1:HTMLHeadingElement = document.createElement("h1")
+h1.textContent = "Tous les personnages !"
+h1.className = "text-4xl font-[Bangers] text-orange-500 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] uppercase text-center pt-40 tracking-wide"
+app.appendChild(h1)
+
+const div:HTMLDivElement = document.createElement("div")
+div.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10"
+app.appendChild(div)
+
+interface CharacterAPI {
+  items:{
+    id:number
+    name:string
+    image:string
+  }[]
+}
+
+async function characterAPI(): Promise<CharacterAPI>{
+    const res = await fetch("https://dragonball-api.com/api/characters")
+    return await res.json()
+}
+
+async function afficherPerso(): Promise<void>{
+    const data = await characterAPI()
+
+    const persos: Character[] = data.items.map((perso:any)=>
+    new Character(perso.image, Number(perso.id), perso.name))
+
+    persos.forEach(perso =>{
+      const carte:HTMLDivElement = document.createElement("div")
+      carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
+      carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
+      carte.classList.add("hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
+
+      const img:HTMLImageElement = document.createElement("img")
+      img.src = perso.image
+      img.alt = `Image de ${perso.name}`
+      img.className = "w-60 h-60 object-contain rounded-full border-3 border-black mb-4"
+
+      const idPerso:HTMLParagraphElement = document.createElement("p")
+      idPerso.textContent = `${perso.id}`
+      idPerso.className = "text-sm text-gray-700 mb-1 font-[Bangers]"
+
+      const nomPerso:HTMLHeadElement = document.createElement("h2")
+      nomPerso.textContent = perso.name
+      nomPerso.className = "text-3xl font-[Bangers] text-blue-900"
+      
+      carte.appendChild(img)
+      carte.appendChild(idPerso)
+      carte.appendChild(nomPerso)
+      div.appendChild(carte)
+
+      carte.addEventListener("click", ():void=>{
+        persoDetail(perso)
+      })
+    })
+}
+afficherPerso()
+
+
+//====================================================DÉTAILS DES PERSONNAGES=========================================================
+
+
+class DetailPerso{
+  image:string
+  id:number
+  name:string
+  ki:string
+  maxKi:string
+  race:string
+  gender:string
+  affiliation:string
+
+  constructor(image:string, id:number, name:string, ki:string, maxKi:string, race:string, gender:string, affiliation:string) {
+    this.image = image
+    this.id = id
+    this.name = name
+    this.ki = ki
+    this.maxKi = maxKi
+    this.race = race
+    this.gender = gender
+    this.affiliation = affiliation
+  }
+}
+
+async function persoDetail(perso: Character) {
+  while(app.firstChild){
+    app.removeChild(app.firstChild)
+  }
+  header()
+
+  const res = await fetch("https://dragonball-api.com/api/characters")
+  const personnages = await res.json()
+
+  const data = personnages.items.find((p:any) => Number(p.id) === Number(perso.id))
+
+  const detail = new DetailPerso(
+    data.image,
+    data.id,
+    data.name,
+    data.ki,
+    data.maxKi,
+    data.race,
+    data.gender,
+    data.affiliation,
+  )
+
+  const titre:HTMLHeadingElement = document.createElement("h1")
+  titre.textContent = `Detail de ${detail.name}`
+  titre.className = "text-4xl text-orange-500 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] uppercase text-center pt-40 tracking-wide font-[Bangers]"
+  app.appendChild(titre)
+
+  const centerDiv:HTMLDivElement = document.createElement("div")
+  centerDiv.className = "flex justify-center mt-10"
+
+  const carte:HTMLDivElement = document.createElement("div")
+  carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-lg p-6 m-4 flex flex-col items-center justify-center border-3 border-blue-900"
+  
+  centerDiv.appendChild(carte)
+  app.appendChild(centerDiv)
+
+  const img:HTMLImageElement = document.createElement("img")
+  img.src = detail.image
+  img.alt = `image de ${detail.name}`
+  img.className = "w-80 h-80 object-contain rounded-full border-3 border-black mb-4"
+
+  carte.appendChild(img)
+  
+  const displayDetail = [
+    detail.id,
+    `Nom: ${detail.name}`,
+    `Ki: ${detail.ki}`,
+    `Ki maximal: ${detail.maxKi}`,
+    `Race: ${detail.race}`,
+    `Genre: ${detail.gender}`,
+    `Affiliation: ${detail.affiliation}`
+  ]
+
+  for (const detail of displayDetail) {
+    const p = document.createElement("p")
+    p.textContent = detail.toString()
+    p.className = "mb-1 p-1 font-bold text-blue-900 text-3xl font-[Bangers]"
+    carte.appendChild(p)
+  }
+}
+
+
+//============================================================FOOTER======================================================
+
+
+function footer():void {
+  const footer = document.createElement('footer')
+  footer.className = 'bg-orange-400 text-center py-4 font-[Bangers] text-white text-2xl'
+  footer.textContent = '© Petitjean Quentyn'
+  app.appendChild(footer)
+}
+
+footer()
