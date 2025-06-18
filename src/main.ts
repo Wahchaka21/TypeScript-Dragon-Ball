@@ -15,7 +15,9 @@ class Character {
 
 
 
+
 //====================================================HEADER=========================================================
+
 
 
 
@@ -78,6 +80,7 @@ function header() {
 
 
 
+
 //===========================================================KI=========================================================================
 
 
@@ -92,7 +95,28 @@ function header() {
     header()
     afficherParKi()
   })
+
+
+
+
+//========================================================RACES==========================================================================
+
+
+
+  race.addEventListener("click", async(e:MouseEvent)=>{
+    e.preventDefault()
+
+    while(app.firstChild){
+      app.removeChild(app.firstChild)
+    }
+
+    header()
+    afficherRace()
+  })
+
+
 }
+
 
 
 
@@ -173,6 +197,7 @@ async function afficherPerso():Promise<void>{
 }
 
 afficherPerso()
+
 
 
 
@@ -337,9 +362,7 @@ async function persoDetail(perso:Character){
 
     planete.forEach(planet=>{
       const carte:HTMLDivElement = document.createElement("div")
-      carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
-      carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
-      carte.classList.add("hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
+      carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 flex flex-col items-center justify-center"
 
 
       const img:HTMLImageElement = document.createElement("img")
@@ -376,7 +399,7 @@ async function persoDetail(perso:Character){
 
 
 
-//===========================================================FONCTION KI=================================================
+  //===========================================================FONCTION KI=================================================
 
 
 
@@ -442,8 +465,7 @@ async function afficherParKi(): Promise<void> {
   }
 
 
-  const personnages:CharacterKi[] = data.items
-    .filter((perso:any) => perso.ki).map((perso:any) => new CharacterKi(perso.image, Number(perso.id), perso.name, perso.ki));
+  const personnages:CharacterKi[] = data.items.filter((perso:any) => perso.ki).map((perso:any) => new CharacterKi(perso.image, Number(perso.id), perso.name, perso.ki))
 
 
   personnages.sort((persoX, persoY) => parseKi(persoY.ki) - parseKi(persoX.ki))
@@ -463,20 +485,25 @@ async function afficherParKi(): Promise<void> {
   personnages.forEach(perso => {
     const carte = document.createElement("div")
     carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
-      carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
-      carte.classList.add("hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
+    carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
+    
+    carte.classList.add("hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
+
     const img:HTMLImageElement = document.createElement("img")
     img.src = perso.image;
     img.alt = `Image de ${perso.name}`
     img.className = "w-60 h-60 object-contain rounded-full border-3 border-black mb-4"
 
+
     const nom:HTMLHeadingElement = document.createElement("h2")
     nom.textContent = perso.name;
     nom.className = "text-3xl font-[Bangers] text-blue-900"
 
+
     const ki:HTMLParagraphElement = document.createElement("p")
     ki.textContent = `Ki : ${perso.ki}`
     ki.className = "text-lg font-[Bangers] text-gray-800"
+
 
     carte.appendChild(img)
     carte.appendChild(nom)
@@ -486,7 +513,8 @@ async function afficherParKi(): Promise<void> {
     carte.addEventListener("click", ():void=>{
       persoDetail(perso)
     })
-  });
+
+  })
 
   //console.log(personnages.map(p => `${p.name}: ${parseKi(p.ki)}`))
 
@@ -495,11 +523,139 @@ async function afficherParKi(): Promise<void> {
 
 
 
+
+//============================================================RACES======================================================
+
+
+
+class Race {
+  race: string
+
+  constructor(race: string) {
+    this.race = race
+  }
+}
+
+async function afficherRace():Promise<void>{
+
+  const res = await fetch("https://dragonball-api.com/api/characters?limit=200")
+  const data = await res.json()
+
+  const races = data.items.map((char:any) => char.race).filter((r:string) => r)
+
+  const racesUniques: string[] = Array.from(new Set(races))
+
+  const allRace = racesUniques.map(r => new Race(r))
+  
+
+  const title:HTMLHeadingElement = document.createElement("h1")
+  title.textContent = "Toutes les races (j'ui pas raciste)"
+  title.className = "text-4xl font-[Bangers] text-orange-500 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] uppercase text-center pt-20 tracking-wide"
+  
+
+  const container:HTMLDivElement = document.createElement("div")
+  container.className = "grid grid-cols-2 gap-6 p-10"
+  
+
+  const div: HTMLDivElement = document.createElement("div")
+  div.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10"
+  app.appendChild(div)
+  
+  allRace.forEach((raceObj) => {
+    const carte:HTMLDivElement = document.createElement("div")
+    carte.className =
+      "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
+    carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
+    carte.classList.add("hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
+
+
+    const perso:HTMLHeadingElement = document.createElement("h1")
+    perso.textContent = raceObj.race
+    perso.className = "text-2xl font-[Bangers] text-blue-900"
+
+
+    app.appendChild(title)
+    app.appendChild(container)
+    carte.appendChild(perso)
+    container.appendChild(carte)
+
+    carte.addEventListener("click", ():void=>{
+      afficherPersoParRace(raceObj.race)
+    })
+  })
+
+  footer()
+}
+
+
+
+
+//==========================================================FILTRE PAR RACE==============================================
+
+
+
+async function afficherPersoParRace(raceName:string):Promise<void>{
+  while (app.firstChild) {
+    app.removeChild(app.firstChild)
+  }
+
+  header()
+
+  const res = await fetch("https://dragonball-api.com/api/characters?limit=200")
+  const allCharacters = await res.json()
+
+  const filtered = allCharacters.items.filter((char: any) => char.race === raceName)
+
+  const titre = document.createElement("h1")
+  titre.textContent = `Personnages de la race : ${raceName}`
+  titre.className = "text-4xl font-[Bangers] text-orange-500 text-center pt-40"
+  app.appendChild(titre)
+
+  const container = document.createElement("div")
+  container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10"
+  app.appendChild(container)
+
+  filtered.forEach((perso: any) => {
+    const carte = document.createElement("div")
+    carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
+    carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2", "hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
+
+    const img = document.createElement("img")
+    img.src = perso.image
+    img.alt = `Image de ${perso.name}`
+    img.className = "w-60 h-60 object-contain rounded-full border-3 border-black mb-4"
+
+    const idPerso = document.createElement("p")
+    idPerso.textContent = `${perso.id}`
+    idPerso.className = "text-sm text-gray-700 mb-1 font-[Bangers]"
+
+    const nomPerso = document.createElement("h2")
+    nomPerso.textContent = perso.name
+    nomPerso.className = "text-3xl font-[Bangers] text-blue-900"
+
+    carte.appendChild(img)
+    carte.appendChild(idPerso)
+    carte.appendChild(nomPerso)
+    container.appendChild(carte)
+
+    carte.addEventListener("click", () => {
+      persoDetail(perso)
+    })
+  })
+
+  footer()
+}
+
+
+
+
+
 //============================================================FOOTER======================================================
 
 
 
-function footer():void {
+
+function footer():void{
   const footer = document.createElement('footer')
   footer.className = 'bg-orange-400 text-center py-4 font-[Bangers] text-white text-2xl'
   footer.textContent = '© Petitjean Quentyn'
