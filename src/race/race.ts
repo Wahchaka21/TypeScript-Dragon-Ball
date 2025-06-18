@@ -5,12 +5,12 @@ import { afficherPersoParRace } from "./filtre_race"
 
 export async function afficherRace():Promise<void>{
 
-  const res = await fetch("https://dragonball-api.com/api/characters?limit=200")
-  const data = await res.json()
+  const res:any = await fetch("https://dragonball-api.com/api/characters?limit=200")
+  const data:any = await res.json()
 
-  const races = data.items.map((char:any) => char.race).filter((r:string) => r)
+  const races:any = data.items.map((char:any) => char.race).filter((r:string) => r)
 
-  const racesUniques: string[] = Array.from(new Set(races))
+  const racesUniques:string[] = Array.from(new Set(races))
 
   const allRace = racesUniques.map(r => new Race(r))
   

@@ -13,14 +13,14 @@ export async function persoDetail(perso:Character){
   header()
   
   
-  const res = await fetch("https://dragonball-api.com/api/characters?limit=100")
-  const personnages = await res.json()
+  const res:any = await fetch("https://dragonball-api.com/api/characters?limit=100")
+  const personnages:any = await res.json()
   
   
-  const data = personnages.items.find((p:any) => Number(p.id) === Number(perso.id))
+  const data:any = personnages.items.find((p:any) => Number(p.id) === Number(perso.id))
   
   
-  const detail = new DetailPerso(
+  const detail:any = new DetailPerso(
     data.image,
     data.id,
     data.name,
@@ -58,7 +58,7 @@ export async function persoDetail(perso:Character){
   carte.appendChild(img)
     
   
-  const displayDetail = [
+  const displayDetail:any = [
     detail.id,
     `Nom: ${detail.name}`,
     `Ki: ${detail.ki}`,
@@ -70,7 +70,7 @@ export async function persoDetail(perso:Character){
   
   
   for (const detail of displayDetail){
-    const p = document.createElement("p")
+    const p:HTMLParagraphElement = document.createElement("p")
     p.textContent = detail.toString()
     p.className = "mb-1 p-1 font-bold text-blue-900 text-4xl font-[Bangers]"
     carte.appendChild(p)

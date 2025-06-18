@@ -4,40 +4,40 @@ import { persoDetail } from "../liste/detail_perso"
 import { footer } from "../header-footer/footer"
 
 export async function afficherParKi(): Promise<void> {
-  const res = await fetch("https://dragonball-api.com/api/characters?limit=200")
-  const data = await res.json()
+  const res:any = await fetch("https://dragonball-api.com/api/characters?limit=200")
+  const data:any = await res.json()
 
 
   const parseKi = (ki: string): number => {
-    const cleaned = ki.trim().toLowerCase()
+    const cleaned:any = ki.trim().toLowerCase()
     
     if (cleaned.includes("billion")) {
-      const value = parseFloat(cleaned.replace("billion", ""))
+      const value:number = parseFloat(cleaned.replace("billion", ""))
       return value * 1_000_000_000
     }
 
     if (cleaned.includes("trillion")) {
-      const value = parseFloat(cleaned.replace("trillion", ""))
+      const value:number = parseFloat(cleaned.replace("trillion", ""))
       return value * 1_000_000_000_000
     }
     
     if (cleaned.includes("quadrillion")) {
-      const value = parseFloat(cleaned.replace("quadrillion", ""))
+      const value:number = parseFloat(cleaned.replace("quadrillion", ""))
       return value * 1_000_000_000_000_000
     }
 
     if (cleaned.includes("quintillion")) {
-      const value = parseFloat(cleaned.replace("quintillion", ""))
+      const value:number = parseFloat(cleaned.replace("quintillion", ""))
       return value * 1_000_000_000_000_000_000_000_000_000_000
     }
 
     if (cleaned.includes("septillion")) {
-    const value = parseFloat(cleaned.replace("septillion", ""))
+    const value:number = parseFloat(cleaned.replace("septillion", ""))
       return value * 1_000_000_000_000_000_000_000_000_000_000_000_000_000_000
     }
 
     if (cleaned.includes("googolplex")) {
-      const value = parseFloat(cleaned.replace("googolplex", ""))
+      const value:number = parseFloat(cleaned.replace("googolplex", ""))
       return value * 1_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000
     }
 
@@ -63,7 +63,7 @@ export async function afficherParKi(): Promise<void> {
 
 
   personnages.forEach(perso => {
-    const carte = document.createElement("div")
+    const carte:HTMLDivElement = document.createElement("div")
     carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
     carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
     

@@ -5,13 +5,13 @@ import { footer } from "../header-footer/footer"
 
 
 export async function planetAPI():Promise<PlanetesAPI>{
-  const res = await fetch("https://dragonball-api.com/api/planets")
+  const res:any = await fetch("https://dragonball-api.com/api/planets")
   return await res.json()
 }
   
 
 export async function afficherPlanete():Promise<void>{
-  const data = await planetAPI()
+  const data:any = await planetAPI()
 
 
   const planete:Planetes[] = data.items.map((pla:any)=>

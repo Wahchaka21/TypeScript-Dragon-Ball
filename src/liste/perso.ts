@@ -25,7 +25,7 @@ export function accueil(){
 
 
   async function afficherPerso():Promise<void>{
-    const data = await characterAPI()
+    const data:any = await characterAPI()
 
 
     const persos:Character[] = data.items.map((perso:any)=>
