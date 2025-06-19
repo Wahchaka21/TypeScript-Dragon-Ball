@@ -13,7 +13,7 @@ export async function afficherPersoParRace(raceName:string):Promise<void>{
   const res:any = await fetch("https://dragonball-api.com/api/characters?limit=200")
   const allCharacters:any = await res.json()
   
-  const filtered:any = allCharacters.items.filter((char: any) => char.race === raceName)
+  const filtered:any = allCharacters.items.filter((char:any) => char.race === raceName)
   
   const titre:HTMLHeadingElement = document.createElement("h1")
   titre.textContent = `Personnages de la race : ${raceName}`

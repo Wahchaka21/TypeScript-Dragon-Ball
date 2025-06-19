@@ -7,7 +7,7 @@ import { afficherPlanete } from './planetes/afficherPlanete'
 import { afficherParKi } from './ki/ki_tri'
 import { afficherRace } from './race/race'
 
-export const app = document.querySelector<HTMLDivElement>('#app')!
+export const app:HTMLElement = document.querySelector<HTMLDivElement>('#app')!
 
 header()
 accueil()

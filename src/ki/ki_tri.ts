@@ -8,7 +8,7 @@ export async function afficherParKi(): Promise<void> {
   const data:any = await res.json()
 
 
-  const parseKi = (ki: string): number => {
+  const parseKi = (ki:string):number => {
     const cleaned:any = ki.trim().toLowerCase()
     
     if (cleaned.includes("billion")) {
