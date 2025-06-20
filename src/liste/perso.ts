@@ -34,7 +34,7 @@ export function accueil(){
 
     persos.forEach(perso =>{
       const carte:HTMLDivElement = document.createElement("div")
-      carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-3 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
+      carte.className = "bg-gradient-to-br from-orange-400 to-yellow-200 rounded-xl p-6 text-black shadow-[0_4px_15px_rgba(0,0,0,0.4)] border-4 border-blue-900 hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center aura-hover"
       carte.classList.add("hover:ring-4", "hover:ring-yellow-400", "hover:ring-offset-2")
       carte.classList.add("hover:shadow-[0_0_20px_rgba(255,255,0,0.8)]")
 

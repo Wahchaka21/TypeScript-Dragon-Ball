@@ -7,8 +7,7 @@ import { filterCharacterByName } from "../search/searchBar"
 
 export function header() {
   const headerDiv:HTMLDivElement = document.createElement("div")
-  headerDiv.className = 'header py-8 bg-orange-400 fixed top-0 right-0 left-0 z-50 flex gap-8 ps-50'
-
+  headerDiv.className = 'header py-8 px-10 bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-600 shadow-[0_4px_15px_rgba(255,165,0,0.8)] border-b-4 border-blue-900 fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-10 aura'
 
   
   const logo:HTMLImageElement = document.createElement("img")

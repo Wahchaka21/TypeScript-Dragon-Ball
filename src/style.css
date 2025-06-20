@@ -14,3 +14,16 @@
     animation: auraHover 1s infinite;
   }
   
+
+  .aura {
+    animation: auraGlow 2s infinite alternate;
+  }
+  
+  @keyframes auraGlow {
+    0% {
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 165, 0, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(255, 255, 0, 0.9), 0 0 30px rgba(255, 140, 0, 0.8);
+    }
+  }
