@@ -2,6 +2,7 @@ import { app } from "../main"
 import { afficherPlanete } from "../planetes/afficherPlanete"
 import { afficherParKi } from "../ki/ki_tri"
 import { afficherRace } from "../race/race"
+import { accueil } from "../liste/perso"
 
 export function header() {
   const headerDiv:HTMLDivElement = document.createElement("div")
@@ -31,12 +32,33 @@ export function header() {
   race.textContent = "Races"
   race.className = "px-8 text-2xl text-white transition-transform duration-300 transform hover:scale-120 cursor-pointer font-[Bangers] aura-hover"
 
+
+  const shenron:HTMLImageElement = document.createElement("img")
+  shenron.src = ("/src/img/shenron.png")
+  shenron.alt = "Shenron"
+  shenron.className = "absolute w-35 right-10 top-1"
+
   headerDiv.appendChild(logo)
   headerDiv.appendChild(liste)
   headerDiv.appendChild(planet)
   headerDiv.appendChild(ki)
   headerDiv.appendChild(race)
+  headerDiv.appendChild(shenron)
   app.appendChild(headerDiv)
+
+
+
+  liste.addEventListener("click", async(e:MouseEvent)=>{
+    e.preventDefault()
+
+    while(app.firstChild){
+      app.removeChild(app.firstChild)
+    }
+
+    header()
+    accueil()
+  })
+
 
 
 
