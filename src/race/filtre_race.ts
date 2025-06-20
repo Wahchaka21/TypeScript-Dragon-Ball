@@ -17,7 +17,7 @@ export async function afficherPersoParRace(raceName:string):Promise<void>{
   
   const titre:HTMLHeadingElement = document.createElement("h1")
   titre.textContent = `Personnages de la race : ${raceName}`
-  titre.className = "text-4xl font-[Bangers] text-orange-500 text-center pt-40"
+  titre.className = "text-4xl font-[Bangers] text-orange-500 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] uppercase text-center pt-40 tracking-wide"
   app.appendChild(titre)
   
   const container:HTMLDivElement = document.createElement("div")
